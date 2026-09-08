@@ -94,100 +94,152 @@
 </head>
 <body>
     <h1>Privacy Policy</h1>
-    <p class="last-updated">Last Updated: May 31, 2026</p>
+    <p class="last-updated">Last Updated: September 9, 2026</p>
 
     <h2>1. Introduction</h2>
     <p>Pockit is an iOS app that helps App Store creators view Apple App Store Connect sales, revenue, downloads, ratings, reviews, widgets, and related business insights in one place. We design Pockit around local storage and user control.</p>
 
     <h2>2. Information You Provide</h2>
-    <p>To connect to App Store Connect, you may enter Apple Connect API information such as Issuer ID, Key ID, Vendor Number, and a private key. You may also choose app filters, currency, widget preferences, Face ID settings, notification settings, and display preferences.</p>
-    <p>These credentials and preferences are stored on your device. Pockit does not operate a separate server to collect, store, or process your App Store Connect credentials.</p>
+    <p>To connect to App Store Connect, you may enter Apple Connect API information: Issuer ID, Key ID, Vendor Number, and a .p8 private key. You may also choose app filters, currency, widget preferences, Face ID settings, notification settings, and display preferences.</p>
+    <p>The .p8 private key is stored only in the on-device Keychain and is limited to this device. It does not sync through iCloud Keychain and is not included in device backups. Issuer ID, Key ID, and Vendor Number are stored on your device. Pockit never uploads your .p8 key to any server. Login credentials used to call Apple APIs stay in memory only and are not saved to disk or uploaded.</p>
+    <p>Pockit does not operate a separate user-account login to collect, store, or process your App Store Connect credentials.</p>
 
     <h2>3. App Store Connect Data</h2>
     <p>After you connect your account, Pockit may request data from Apple's App Store Connect APIs and related Apple services, including app metadata, sales and proceeds reports, downloads, ratings, reviews, territories, currencies, and app status information.</p>
     <p>This data is used only to display analytics inside Pockit and its widgets. Cached data is stored locally on your device to improve speed and reduce repeated network requests.</p>
 
-    <h2>4. Information We Do Not Collect</h2>
-    <p>Pockit does not collect or sell personal data for advertising or tracking. We do not collect contacts, photos, camera content, microphone recordings, precise location, browsing history, or device identifiers for third-party tracking.</p>
+    <h2>4. On-Device Features and Information We Do Not Collect</h2>
+    <p>Pockit does not collect or sell personal data for advertising or tracking. The app includes a PrivacyInfo.xcprivacy manifest declaring that it does not track users and does not collect data linked to your identity for tracking. We do not collect contacts, live camera or microphone recordings, precise location, browsing history, or device identifiers for third-party tracking.</p>
+    <p>When you create a share poster, you may use the system photo picker to choose an image already on your device, and you may save the generated poster to Photos. Those images remain on your device unless you choose to share them yourself. Pockit does not upload your photos to our servers.</p>
+    <p>If you copy sensitive values such as an order passcode, notification URL, or export password, Pockit writes them only to the on-device pasteboard. They expire after about two minutes and are not synced to other devices.</p>
+    <p>If you enable Face ID, unlock happens entirely on your device. Biometric data is not sent to us or to any third party.</p>
 
     <h2>5. Network Requests and Third-Party Services</h2>
-    <p>Pockit connects to Apple services when you sync App Store Connect data, validate subscription purchases, open Apple's standard terms, or use system features provided by Apple. We do not share your data with advertising networks or third-party analytics providers.</p>
+    <p>Pockit may contact the following services as needed for app functionality:</p>
+    <ul>
+        <li>Apple App Store Connect APIs, to sync the app and sales data you request</li>
+        <li>Apple StoreKit, to process purchases and subscriptions</li>
+        <li>Apple Push Notification service (APNs), to deliver remote order notifications</li>
+        <li>The Pockit order notification service at orders.pockitkit.cn, described in section 6</li>
+        <li>Frankfurter (api.frankfurter.dev), to fetch public currency exchange rates when you view sales in a chosen currency</li>
+    </ul>
+    <p>We do not include advertising or third-party analytics SDKs, and we do not share your data with advertising networks or analytics providers.</p>
     <p>If Pockit shares data with Apple services or any permitted third-party service required for app functionality, those services are expected to protect user data according to their own privacy and security standards and provide protections consistent with this policy and Apple's requirements.</p>
 
-    <h2>6. Data Storage and Security</h2>
+    <h2>6. Order Notification Service</h2>
+    <p>If you enable order notifications, Pockit saves on this device a set of identity information used only to receive order alerts.</p>
+    <p>After you enter the matching notification URL in App Store Connect, Apple sends order events to Pockit's order notification service (orders.pockitkit.cn).</p>
+    <p>That service is used only to push your order alerts to devices you have authorized. It never receives your .p8 private key, and it is not a separate cloud account you need to register for.</p>
+    <p>You can destroy this notification link in the app at any time. After you destroy it, the related passcode on this device is cleared, and that address will no longer receive or push new order alerts. The next time you open the Orders page, a new link is created.</p>
+    <p>The order notification service keeps only the information needed to show orders on your devices and send alerts, and isolates it from other users by your unique link. We cannot access your order contents, and we do not use them for advertising or analytics.</p>
+
+    <h2>7. Data Storage and Security</h2>
     <ul>
-        <li><strong>Local storage:</strong> Credentials, caches, and settings are stored locally on your device.</li>
-        <li><strong>System protection:</strong> Pockit relies on iOS sandboxing, file protection, Keychain or local secure storage where applicable, and system-level encryption.</li>
-        <li><strong>User control:</strong> You can delete API information and locally cached data from the app settings.</li>
+        <li><strong>Local storage:</strong> Credentials, caches, settings, and the local order ledger are stored in the iOS app sandbox on your device. Sensitive business files are marked to be excluded from iTunes and iCloud backups.</li>
+        <li><strong>Widgets:</strong> Only selected summary snapshots are written to the App Group container so widgets can display the metrics you chose. Widgets cannot read the Keychain or call App Store Connect APIs. Full order history and API credentials are not written to the App Group.</li>
+        <li><strong>System protection:</strong> Pockit relies on iOS sandboxing, file protection, Keychain, and system-level encryption.</li>
+        <li><strong>Order archive export:</strong> If you export or import an order archive (.pockitorders), the file is encrypted with a password you choose and see at that time. The password is not stored on disk. Archives do not include your .p8 key, order passcode, or notification URL.</li>
+        <li><strong>User control:</strong> You can delete API credentials, destroy the order notification link, and clear locally cached data from the app settings.</li>
         <li><strong>No resale:</strong> We do not sell, rent, or trade your App Store Connect data.</li>
     </ul>
 
-    <h2>7. Widgets and Notifications</h2>
-    <p>Pockit may write selected summary data to the app group container so iOS widgets can display your chosen metrics. If you enable notifications, Pockit may use local notifications to inform you about app data updates. Notification permission can be managed in iOS Settings.</p>
+    <h2>8. Widgets and Notifications</h2>
+    <p>Pockit may write selected summary data to the App Group container so iOS widgets can display your chosen metrics.</p>
+    <p>If you enable notifications, order alerts are delivered as remote notifications through Apple Push Notification service (APNs), not as local-only notifications. The app may also use background refresh so widgets and on-device summaries can update when the system allows. Notification permission can be managed in iOS Settings.</p>
 
-    <h2>8. Subscriptions and Purchases</h2>
+    <h2>9. Subscriptions and Purchases</h2>
     <p>Pockit may use Apple's StoreKit framework to process purchases or subscriptions. Purchase processing is handled by Apple. We receive only the information needed to unlock app features and restore purchases.</p>
 
-    <h2>9. Children's Privacy</h2>
+    <h2>10. Children's Privacy</h2>
     <p>Pockit is not directed to children under 13 and does not knowingly collect information from children.</p>
 
-    <h2>10. Data Retention and Deletion</h2>
-    <p>Locally stored credentials, settings, and cached analytics remain on your device until you delete them, reset the app, or uninstall the app. Because Pockit does not maintain a separate backend account system, there is no server-side account data for us to delete.</p>
+    <h2>11. Data Retention and Deletion</h2>
+    <p>Locally stored credentials, settings, cached analytics, and the local order ledger remain on your device until you delete them in the app, reset the app, or uninstall the app.</p>
+    <p>Deleting local App Store Connect credentials in Pockit removes them from this device. It does not revoke the corresponding API key in App Store Connect. If you believe a key may be compromised, you must revoke it yourself in App Store Connect.</p>
+    <p>If you used order notifications, destroying the order link is a separate action. It stops that address from receiving and pushing new order alerts, and it clears the related passcode on this device. Deleting local API credentials does not by itself destroy the order link.</p>
+    <p>iOS may retain Keychain items after you uninstall the app. On a later install, if the app no longer has your previous Issuer ID, Key ID, and Vendor Number, Pockit attempts to clear leftover .p8 material and order-notification credentials so a previous user's key is not restored automatically.</p>
+    <p>Pockit does not provide a separate cloud login or user-account system. The only server-side data associated with you is the information needed to deliver order notifications to your devices, which you can invalidate by destroying the order link.</p>
 
-    <h2>11. Changes to This Policy</h2>
+    <h2>12. Changes to This Policy</h2>
     <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated date.</p>
 
-    <h2>12. Contact</h2>
+    <h2>13. Contact</h2>
     <p>If you have questions about this Privacy Policy, please contact us at: jason2k@126.com</p>
 
     <div class="language-divider">
         <h1>隐私政策</h1>
     </div>
 
-    <p class="last-updated">最后更新日期：2026年5月31日</p>
+    <p class="last-updated">最后更新日期：2026年9月9日</p>
 
     <h2>1. 引言</h2>
     <p>Pockit 是一款帮助 App Store 开发者查看 Apple App Store Connect 销量、收入、下载量、评分、评价、小组件及相关经营数据的 iOS 应用。我们围绕本地存储和用户控制来设计 Pockit。</p>
 
     <h2>2. 您提供的信息</h2>
-    <p>为了连接 App Store Connect，您可能会填写 Apple Connect API 信息，例如 Issuer ID、Key ID、Vendor Number 和私钥内容。您也可以设置 App 筛选、货币、小组件偏好、Face ID、通知和显示偏好。</p>
-    <p>这些凭证和偏好会存储在您的设备本机。Pockit 不运营额外服务器来收集、保存或处理您的 App Store Connect 凭证。</p>
+    <p>为了连接 App Store Connect，您可能会填写 Apple Connect API 信息：Issuer ID、Key ID、Vendor Number 和 .p8 私钥。您也可以设置 App 筛选、货币、小组件偏好、Face ID、通知和显示偏好。</p>
+    <p>.p8 私钥只保存在本机钥匙串中，且仅限此设备：不会通过 iCloud 钥匙串同步，也不会随设备备份迁移。Issuer ID、Key ID 和 Vendor Number 保存在您的设备本机。Pockit 不会把您的 .p8 上传到任何服务器。用于连接 Apple 的登录凭证只短暂留在内存中，不会保存到本机或上传。</p>
+    <p>Pockit 不提供单独的云端登录账号，也不会用独立账号系统来收集、保存或处理您的 App Store Connect 凭证。</p>
 
     <h2>3. App Store Connect 数据</h2>
     <p>连接账号后，Pockit 可能会向 Apple 的 App Store Connect API 及相关 Apple 服务请求数据，包括 App 元数据、销量和收入报告、下载量、评分、评价、地区、货币和 App 状态信息。</p>
     <p>这些数据仅用于在 Pockit 应用内和小组件中展示数据分析。缓存数据会保存在您的设备本机，以提高打开速度并减少重复网络请求。</p>
 
-    <h2>4. 我们不会收集的信息</h2>
-    <p>Pockit 不会为了广告或追踪目的收集或出售个人数据。我们不会收集联系人、照片、相机内容、麦克风录音、精确位置、浏览历史或用于第三方追踪的设备标识符。</p>
+    <h2>4. 本机功能与我们不会收集的信息</h2>
+    <p>Pockit 不会为了广告或追踪目的收集或出售个人数据。应用包含 PrivacyInfo.xcprivacy 清单，声明不做用户追踪，也不为追踪目的收集可关联到您身份的数据。我们不会收集联系人、实时相机或麦克风录音、精确位置、浏览历史，或用于第三方追踪的设备标识符。</p>
+    <p>当您制作分享海报时，可以使用系统相册选择器选取设备上已有的图片，也可以把生成的海报保存到相册。这些图片会留在您的设备上，除非您自己选择分享。Pockit 不会把您的照片上传到我们的服务器。</p>
+    <p>如果您复制订单口令、通知地址或导出密码等敏感内容，Pockit 只会写入本机剪贴板，约两分钟后失效，且不会同步到其他设备。</p>
+    <p>如果您开启 Face ID，解锁完全在本机完成。生物识别数据不会发送给我们或任何第三方。</p>
 
     <h2>5. 网络请求和第三方服务</h2>
-    <p>当您同步 App Store Connect 数据、验证订阅购买、打开 Apple 标准条款或使用 Apple 系统功能时，Pockit 会连接 Apple 服务。我们不会将您的数据分享给广告网络或第三方分析服务商。</p>
+    <p>为完成应用功能，Pockit 可能会连接以下服务：</p>
+    <ul>
+        <li>Apple App Store Connect API，用于同步您请求的应用与销售数据</li>
+        <li>Apple StoreKit，用于处理购买和订阅</li>
+        <li>Apple 推送通知服务（APNs），用于下发远程订单通知</li>
+        <li>Pockit 订单通知服务 orders.pockitkit.cn，详见第 6 节</li>
+        <li>Frankfurter（api.frankfurter.dev），用于在您选择的货币下查看销售数据时获取公开汇率</li>
+    </ul>
+    <p>我们不内置广告或第三方分析 SDK，也不会把您的数据分享给广告网络或分析服务商。</p>
     <p>如 Pockit 因应用功能需要与 Apple 服务或其他被允许的第三方服务共享必要数据，这些服务应按照其自身隐私与安全标准保护用户数据，并提供与本隐私政策及 Apple 要求一致的保护。</p>
 
-    <h2>6. 数据存储与安全</h2>
+    <h2>6. 订单通知服务</h2>
+    <p>若您开启订单通知，Pockit 会在本机保存一组仅用于接收订单提醒的身份信息。</p>
+    <p>您在 App Store Connect 里把通知地址填成该身份对应的专属链接后，Apple 会把订单事件发到 Pockit 的订单通知服务（orders.pockitkit.cn）。</p>
+    <p>该服务只用来把属于您的订单提醒推送到您已授权的设备。它不会收到您的 .p8 私钥，也不是一个需要单独注册的云端账号。</p>
+    <p>您可以随时在应用内销毁这条通知链接；销毁后本机相关口令会被清除，该地址将不再接收并推送新的订单提醒。下次打开订单页会生成新的链接。</p>
+    <p>订单通知服务只会保存向您的设备展示订单、发送提醒所需的信息，并按您的专属链接与其他用户隔离。我们无法获取订单内容，也不会用于广告或分析。</p>
+
+    <h2>7. 数据存储与安全</h2>
     <ul>
-        <li><strong>本地存储：</strong> 凭证、缓存和设置保存在您的设备本机。</li>
-        <li><strong>系统保护：</strong> Pockit 依赖 iOS 沙盒、文件保护、适用情况下的钥匙串或本地安全存储，以及系统级加密能力。</li>
-        <li><strong>用户控制：</strong> 您可以在应用设置中删除 API 信息和本机缓存数据。</li>
+        <li><strong>本地存储：</strong> 凭证、缓存、设置和本机订单账本保存在 iOS 应用沙盒中。敏感经营文件会被标记为排除 iTunes / iCloud 备份。</li>
+        <li><strong>小组件：</strong> 只有您选择的摘要快照会写入 App Group 容器，供小组件展示对应指标。小组件不能读取钥匙串，也不能直接请求 App Store Connect API。完整订单历史和 API 凭证不会写入 App Group。</li>
+        <li><strong>系统保护：</strong> Pockit 依赖 iOS 沙盒、文件保护、钥匙串以及系统级加密能力。</li>
+        <li><strong>订单档案导出：</strong> 如果您导出或导入订单档案（.pockitorders），文件会使用您当场看到的密码加密。密码不会保存在本机。档案不包含 .p8、订单口令或通知地址。</li>
+        <li><strong>用户控制：</strong> 您可以在应用设置中删除 API 凭证、销毁订单通知链接，以及清理本机缓存数据。</li>
         <li><strong>不转售：</strong> 我们不会出售、出租或交易您的 App Store Connect 数据。</li>
     </ul>
 
-    <h2>7. 小组件与通知</h2>
-    <p>Pockit 可能会将您选择的摘要数据写入 App Group 容器，以便 iOS 小组件展示对应指标。如果您开启通知，Pockit 可能会使用本地通知提醒您 App 数据更新。通知权限可以在 iOS 设置中管理。</p>
+    <h2>8. 小组件与通知</h2>
+    <p>Pockit 可能会将您选择的摘要数据写入 App Group 容器，以便 iOS 小组件展示对应指标。</p>
+    <p>如果您开启通知，订单提醒会通过 Apple 推送通知服务（APNs）以远程通知下发，而不是仅使用本地通知。应用也可能使用后台刷新，以便在系统允许时更新小组件和本机摘要。通知权限可以在 iOS 设置中管理。</p>
 
-    <h2>8. 订阅与购买</h2>
+    <h2>9. 订阅与购买</h2>
     <p>Pockit 可能会使用 Apple 的 StoreKit 框架处理购买或订阅。购买流程由 Apple 处理。我们仅接收用于解锁功能和恢复购买所需的信息。</p>
 
-    <h2>9. 儿童隐私</h2>
+    <h2>10. 儿童隐私</h2>
     <p>Pockit 并非面向 13 岁以下儿童的应用，也不会有意收集儿童信息。</p>
 
-    <h2>10. 数据保留与删除</h2>
-    <p>本地存储的凭证、设置和缓存分析数据会保留在您的设备上，直到您主动删除、重置应用或卸载应用。由于 Pockit 不维护独立的后端账号系统，因此不存在需要我们删除的服务器端账号数据。</p>
+    <h2>11. 数据保留与删除</h2>
+    <p>本地存储的凭证、设置、缓存分析数据和本机订单账本会保留在您的设备上，直到您在应用内删除、重置应用或卸载应用。</p>
+    <p>在 Pockit 中删除本机 App Store Connect 凭证，只会从这台设备移除这些信息，并不会在 App Store Connect 中撤销对应的 API Key。如果您怀疑密钥可能泄露，需要自行到 App Store Connect 撤销该 Key。</p>
+    <p>如果您使用过订单通知，销毁订单链接是单独操作。销毁后该地址将不再接收并推送新的订单提醒，本机相关口令也会被清除。仅删除本机 API 凭证并不会同时销毁订单链接。</p>
+    <p>卸载应用后，iOS 仍可能保留钥匙串条目。再次安装时，如果应用里已经没有此前的 Issuer ID、Key ID 和 Vendor Number，Pockit 会尝试清除残留的 .p8 和订单通知相关凭证，避免自动填回上一任用户的私钥。</p>
+    <p>Pockit 不提供单独的云端登录或用户账号系统。与您相关的服务端数据，仅包括向您的设备投递订单通知所需的信息；您可以通过销毁订单链接使其失效。</p>
 
-    <h2>11. 隐私政策更新</h2>
+    <h2>12. 隐私政策更新</h2>
     <p>我们可能会不时更新本隐私政策。任何变更都会发布在本页面，并更新日期。</p>
 
-    <h2>12. 联系方式</h2>
+    <h2>13. 联系方式</h2>
     <p>如果您对本隐私政策有任何问题，请通过以下邮箱联系我们：jason2k@126.com</p>
 
     <div class="footer">

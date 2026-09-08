@@ -12,4 +12,4 @@ Open `index.html` in a web browser to preview the page locally.
 
 ## Updates
 
-The privacy policy was last updated on May 31, 2026.
+The privacy policy was last updated on September 9, 2026.
